@@ -1,0 +1,27 @@
+MEMBER 2 - DATA PREPROCESSING FINDINGS
+
+1. Used the cleaned dataset prepared by Member 1.
+
+2. Removed duplicate records.
+
+3. Standardized column names.
+
+4. Handled missing values using median for numerical variables
+   and mode for categorical variables.
+
+5. Converted the stress-level target variable to numeric format.
+
+6. Converted categorical variables into numerical features
+   using one-hot encoding.
+
+7. Removed the Timestamp column.
+
+8. Separated the dataset into features (X) and target (y).
+
+9. The processed dataset contains 120 records and 105 columns.
+
+10. Saved the model-ready dataset as:
+    data/processed/model_ready_stress_data.csv
+
+11. The processed dataset is ready for the machine learning
+    model-building stage.
