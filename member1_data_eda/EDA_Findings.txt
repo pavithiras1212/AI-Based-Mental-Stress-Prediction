@@ -1,0 +1,134 @@
+EDA FINDINGS — AI-BASED MENTAL STRESS PREDICTION
+
+1. DATASET OVERVIEW
+
+Dataset size: 120 students, 10 variables.
+Duplicate records: 0.
+Average stress level: 2.61 out of 5.
+Median stress level: 3.
+Most common stress level: 3.
+
+
+2. STRESS LEVEL DISTRIBUTION
+
+Stress Level 1: 29 students
+Stress Level 2: 25 students
+Stress Level 3: 40 students
+Stress Level 4: 13 students
+Stress Level 5: 12 students
+
+Stress level 3 is the most common category, representing approximately
+33.61% of the valid responses.
+
+
+3. STRESS AND EXERCISE
+
+Average stress by exercise frequency:
+
+Weekly: 2.17
+Daily: 2.50
+Rarely: 2.59
+Never: 2.92
+
+Students who reported weekly exercise had the lowest average stress,
+while students who never exercised had the highest average stress.
+
+
+4. STRESS AND YEAR OF STUDY
+
+Average stress by year:
+
+1st Year: 1.98
+2nd Year: 2.74
+3rd Year: 3.14
+4th Year: 3.20
+5th Year: 4.00
+
+Average stress generally increased with year of study in this dataset.
+
+
+5. STRESS AND SLEEP
+
+Average stress by sleep duration:
+
+More than 8 hours: 1.50
+6–8 hours: 2.45
+Less than 5 hours: 2.86
+5–6 hours: 2.92
+
+The group reporting more than 8 hours of sleep had the lowest average
+stress level.
+
+
+6. STRESS AND AGE
+
+Average stress by age group:
+
+Below 18: 1.98
+18–20: 2.74
+21–22: 2.67
+Above 23: 3.63
+30: 3.00
+31: 5.00
+
+The Below-18 group had the lowest average stress, while the Above-23
+group showed a higher average stress level.
+
+The 30 and 31 age groups contain very few responses, so these values
+should be interpreted cautiously.
+
+
+7. STRESS AND MAIN CAUSE
+
+Average stress by main cause:
+
+Other: 1.83
+Exams: 2.11
+Academic pressure: 2.67
+Family/Personal issues: 2.87
+Future career: 2.87
+Financial issues: 4.25
+
+Financial issues had the highest average stress level. However, only
+4 responses belonged to this category, so this result should be
+interpreted cautiously.
+
+
+8. STRESS-RELATED SYMPTOMS
+
+The dataset contains several reported stress-related symptoms,
+including headache, difficulty concentrating, anxiety and poor sleep.
+
+Some combinations involving multiple symptoms showed higher average
+stress levels than individual symptoms.
+
+The relationship should be treated as an association rather than
+evidence of causation.
+
+
+9. CORRELATION ANALYSIS
+
+The current correlation matrix contains only the stress-level variable.
+
+Therefore, no meaningful correlation between stress and other
+variables can be concluded from the current correlation matrix.
+
+The other survey variables are mainly categorical/text variables and
+require suitable encoding before numerical correlation analysis.
+
+
+10. OVERALL EDA CONCLUSION
+
+The exploratory analysis shows that stress levels vary across
+exercise frequency, sleep duration, year of study, age group,
+reported causes of stress and stress-related symptoms.
+
+The dataset has 120 student responses and contains no duplicate rows.
+
+The findings provide useful patterns for the next stage of the project,
+where relevant variables can be encoded and used as features for
+mental stress prediction.
+
+These EDA results describe associations in the survey data and should
+not be interpreted as proof that one factor directly causes changes
+in stress levels.
