@@ -182,10 +182,7 @@ print("================================")
 
 print("Best Model:", best_model_name)
 
-
-best_model = DecisionTreeClassifier(
-    random_state=42
-)
+best_model = models[best_model_name]
 
 best_model.fit(X_train, y_train)
 
