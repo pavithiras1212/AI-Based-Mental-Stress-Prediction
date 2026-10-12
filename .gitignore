@@ -1,2 +1,10 @@
 __pycache__/
 *.pyc
+# Local backups and temporary files
+backup/
+app_before_chat.py
+tatus --short
+
+# Local Python cache
+__pycache__/
+*.pyc

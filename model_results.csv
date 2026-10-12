@@ -1,0 +1,5 @@
+Model,CV Accuracy,CV Weighted F1,CV Macro F1
+Mixed Naive Bayes,0.42857142857142855,0.4231856062371401,0.38309173200739466
+Random Forest,0.4279,0.4037,0.3782
+Logistic Regression,0.4199,0.4039,0.3596
+Decision Tree,0.3775,0.3468,0.3373

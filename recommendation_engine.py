@@ -1,85 +1,142 @@
-def generate_recommendations(student_data):
+"""Recommendation engine for MindBloom AI Stress Prediction.
+
+Generates compassionate, actionable wellness recommendations tailored to
+the student's predicted stress level and specific survey responses.
+"""
+
+
+def generate_recommendations(student_data, predicted_stress=None):
+    """Generate recommendations based on predicted stress level and student survey responses.
+
+    Parameters
+    ----------
+    student_data : dict
+        Student survey responses.
+    predicted_stress : int or float, optional
+        Predicted stress level (1-5).
+
+    Returns
+    -------
+    list of str
+        Tailored wellness recommendations.
+    """
+    try:
+        level = int(round(float(predicted_stress))) if predicted_stress is not None else None
+    except (TypeError, ValueError):
+        level = None
+
     recommendations = []
 
-    # Sleep
-    sleep = str(
-        student_data.get("How many hours do you sleep on average?", "")
-    ).lower()
+    # 1. Level-Specific Foundational Strategies
+    if level == 1:
+        recommendations.extend([
+            "Your stress level is currently very low. Continue maintaining your balanced daily routine.",
+            "Protect your restorative sleep and prioritize regular leisure and creative hobbies.",
+            "Continue utilizing positive coping habits and sharing good moments with friends or family.",
+        ])
+    elif level == 2:
+        recommendations.extend([
+            "Your stress level is low. Keep practicing proactive time management to stay ahead of deadlines.",
+            "Maintain a steady sleep schedule and incorporate regular physical activity into your week.",
+            "Take short relaxation breaks between intense study sessions to sustain your focus.",
+        ])
+    elif level == 3:
+        recommendations.extend([
+            "Your stress level is moderate. Break large assignments into smaller, time-boxed milestones.",
+            "Integrate restorative relaxation techniques such as deep diaphragmatic breathing (box breathing) or mindfulness.",
+            "Review your weekly schedule to ensure you are leaving room for adequate sleep, nutrition, and exercise.",
+        ])
+    elif level == 4:
+        recommendations.extend([
+            "Your stress level is elevated. Consider deprioritizing non-essential commitments to reduce academic overload.",
+            "Reach out to someone you trust—a friend, family member, mentor, or campus advisor—to share what you are experiencing.",
+            "Focus on foundational recovery: set a firm bedtime, minimize late-night screen exposure, and take restorative walks.",
+        ])
+    elif level == 5:
+        recommendations.extend([
+            "Your stress level is very high. Please consider connecting with a university wellness counselor or student support service.",
+            "Speak openly with academic advisors or faculty about workload adjustments or extension options.",
+            "Prioritize basic self-care: consistent meals, hydration, and short moments of calming rest throughout the day.",
+        ])
+    else:
+        recommendations.extend([
+            "Maintain a balanced daily routine with adequate sleep, regular physical activity, and social connection.",
+            "Break demanding academic tasks into smaller, manageable steps with planned breaks.",
+        ])
 
-    if any(value in sleep for value in ["less", "4", "5", "6"]):
+    # 2. Targeted Factor-Specific Strategies
+    normalized = {
+        str(k).strip().casefold(): str(v).strip().casefold()
+        for k, v in student_data.items()
+    }
+
+    sleep_text = normalized.get("how many hours do you sleep on average?", "")
+    exercise_text = normalized.get("how often do you exercise or do physical activity?", "")
+    cause_text = normalized.get("what is the main cause of your stress?", "")
+    freq_text = normalized.get("how often do you feel stressed?", "")
+    symptom_text = normalized.get("have you experienced any of the following due to stress?", "")
+    coping_text = normalized.get("how do you usually cope with stress?", "")
+
+    # Sleep intervention
+    if any(term in sleep_text for term in ["less than 5", "<5", "4", "5–6", "5-6"]):
         recommendations.append(
-            "Try to maintain a consistent and sufficient sleep routine."
+            "Sleep Optimization: You reported sleeping fewer than 6 hours. Try keeping a consistent sleep schedule and stopping screen use 30 minutes before bed."
         )
 
-    # Academic pressure / Exams
-    stress_cause = str(
-        student_data.get("What is the main cause of your stress?", "")
-    ).lower()
-
-    if "academic" in stress_cause or "exam" in stress_cause:
+    # Physical activity intervention
+    if any(term in exercise_text for term in ["never", "rarely"]):
         recommendations.append(
-            "Break academic work into smaller tasks and plan study time in advance."
+            "Gentle Movement: Incorporating even 15-20 minutes of daily walking or light stretching significantly lowers cortisol levels and boosts mental clarity."
         )
 
-    # Exercise
-    exercise = str(
-        student_data.get(
-            "How often do you exercise or do physical activity?", ""
-        )
-    ).lower()
-
-    if any(value in exercise for value in ["rarely", "never", "sometimes"]):
+    # Academic pressure intervention
+    if any(term in cause_text for term in ["academic", "exam"]):
         recommendations.append(
-            "Include regular physical activity or short movement breaks in your routine."
+            "Study Strategy: Use active study techniques like the Pomodoro technique (25 min study, 5 min break) to manage academic pressure without burnout."
         )
 
-    # Stress symptoms
-    symptoms = str(
-        student_data.get(
-            "Have you experienced any of the following due to stress?", ""
-        )
-    ).lower()
-
-    if symptoms and symptoms not in ["none", "no", "nan"]:
+    # High stress frequency
+    if freq_text in ["often", "always"]:
         recommendations.append(
-            "Take regular study breaks and use healthy coping strategies when you feel stressed."
+            "Proactive Support: Because you experience frequent stress, setting up regular check-ins with peer support groups or mentors can make a meaningful difference."
         )
 
-    # Coping method
-    coping = str(
-        student_data.get(
-            "How do you usually cope with stress?", ""
-        )
-    ).lower()
-
-    if coping in ["nothing", "none", ""]:
+    # Physical symptoms reported
+    if any(sym in symptom_text for sym in ["headache", "poor sleep", "anxiety", "difficulty concentrating"]):
         recommendations.append(
-            "Consider using healthy coping strategies such as talking with someone you trust, "
-            "taking breaks, or doing a relaxing activity."
+            "Physical Reset: When noticing headaches or anxiety, practice progressive muscle relaxation or step outside for fresh air to relieve tension."
         )
 
-    # Default recommendation
-    if not recommendations:
+    # Ineffective or missing coping strategies
+    if any(cop in coping_text for cop in ["nothing", "none", "", "nan"]):
         recommendations.append(
-            "Continue maintaining healthy study, sleep, activity, and social routines."
+            "Healthy Coping: Build an active stress buffer—listening to music, journaling your thoughts, or going for a bike ride helps decompress."
         )
 
-    return recommendations
+    # Deduplicate while preserving order
+    unique_recs = []
+    seen = set()
+    for rec in recommendations:
+        key = rec[:35].lower()
+        if key not in seen:
+            unique_recs.append(rec)
+            seen.add(key)
+
+    return unique_recs[:5]
 
 
 if __name__ == "__main__":
-
-    # Test student
-    sample_student = {
+    sample = {
+        "Age": "18–20",
+        "Year of Study": "2nd Year",
+        "How often do you feel stressed?": "Often",
         "What is the main cause of your stress?": "Academic pressure",
-        "How many hours do you sleep on average?": "5-6 hours",
-        "How often do you exercise or do physical activity?": "Rarely",
-        "Have you experienced any of the following due to stress?": "Headache",
-        "How do you usually cope with stress?": "Nothing"
+        "How many hours do you sleep on average?": "Less than 5",
+        "How often do you exercise or do physical activity?": "Never",
+        "Have you experienced any of the following due to stress?": "Headache, Anxiety",
+        "How do you usually cope with stress?": "Nothing",
     }
-
-    recommendations = generate_recommendations(sample_student)
-
-    print("\nRecommended Strategies:")
-    for i, recommendation in enumerate(recommendations, 1):
-        print(f"{i}. {recommendation}")
+    recs = generate_recommendations(sample, predicted_stress=4)
+    print("Sample Recommendations (Level 4):")
+    for i, r in enumerate(recs, 1):
+        print(f" {i}. {r}")
